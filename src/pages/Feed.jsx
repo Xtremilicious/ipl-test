@@ -1,10 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { IconContext } from "react-icons";
 import { DataConsumer } from "../data/Context";
 import { BiSearch } from "react-icons/bi";
 import PlayerCard from "../components/PlayerCard";
-import { Suspense, lazy } from 'react';
 
 const FeedWrapper = styled.nav`
   height: 100vh;
@@ -130,7 +129,11 @@ export default function Feed() {
   function giveAlert() {
     alert("Search logic not implemented.");
   }
-
+  const [playersToDisplay, setplayersToDisplay] = useState(3);
+  function showMore() {
+    setplayersToDisplay(playersToDisplay + 18);
+  }
+  const totalPlayers = 600;
   return (
     <FeedWrapper>
       <div className="feed-navbar">
@@ -151,23 +154,24 @@ export default function Feed() {
           </button>
         </div>
       </div>
-     
-        <div className="cardContainer">
-          
-          <DataConsumer>
-       
-            {(value) => {
-              return value.players.map((player) => {
-                //console.log(playerStat)
-                return <PlayerCard data={player} />;
-              });
-              //console.log(value.players);
-              //return value.players.map((player) => <div>{player.Player_Name}</div>);
-            }}
-           
-          </DataConsumer>
-        </div>
-      
+
+      <div className="cardContainer">
+        <DataConsumer>
+          {(value) => {
+            return value.players.slice(0, playersToDisplay).map((player) => {
+              //console.log(playerStat)
+              return <PlayerCard data={player} />;
+            });
+            //console.log(value.players);
+            //return value.players.map((player) => <div>{player.Player_Name}</div>);
+          }}
+        </DataConsumer>
+        {playersToDisplay < totalPlayers ? (
+          <button onClick={() => showMore()} className="load-more-button">
+            Load More
+          </button>
+        ) : null}
+      </div>
     </FeedWrapper>
   );
 }
