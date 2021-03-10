@@ -3,10 +3,18 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import {DataProvider} from './data/Context';
+//eslint-disable-next-line
+import $ from 'jquery'; 
+//eslint-disable-next-line
+import Popper from 'popper.js'; 
+import 'bootstrap/dist/js/bootstrap.bundle.min';
 
 ReactDOM.render(
   <React.StrictMode>
+    <DataProvider>
     <App />
+    </DataProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );
