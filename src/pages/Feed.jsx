@@ -11,8 +11,14 @@ const FeedWrapper = styled.nav`
   height: 100vh;
   overflow-y: scroll;
   .feed-navbar {
+    background: white;
     margin: 0 1.5em;
     padding: 1.5em;
+    position: sticky;
+    overflow: hidden;
+    z-index: 1;
+    width: 100%;
+    top: 0;
     .searchbar {
       display: flex;
       width: 50%;
