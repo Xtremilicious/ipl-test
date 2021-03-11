@@ -1,9 +1,10 @@
 import React from "react";
 import styled from "styled-components";
-import { DataConsumer } from "../data/Context";
 
 import { GrFilter } from "react-icons/gr";
 import Category from "../components/Category";
+
+import { connect } from "react-redux";
 
 const SidebarWrapper = styled.nav`
   display: flex;
@@ -45,7 +46,8 @@ const SidebarWrapper = styled.nav`
   }
 `;
 
-export default function Sidebar() {
+function Sidebar(state) {
+  let value = state;
   return (
     <SidebarWrapper>
       <div className="navheader">
@@ -53,14 +55,19 @@ export default function Sidebar() {
         <span className="headtitle">FILTERS</span>
       </div>
       <div className="sidebar-content accordion" id="accordionExample">
-        <DataConsumer>
-          {(value) => {
-            return Object.entries(value.categories).map((category, index) => (
-              <Category data={category} index={index} />
-            ));
-          }}
-        </DataConsumer>
+        {Object.entries(value.categories).map((category, index) => (
+          <Category data={category} index={index} />
+        ))}
       </div>
     </SidebarWrapper>
   );
 }
+
+const mapStateToProps = (state) => {
+  return {
+    players: state.data.players,
+    categories: state.data.categories,
+  };
+};
+
+export default connect(mapStateToProps, {})(Sidebar);

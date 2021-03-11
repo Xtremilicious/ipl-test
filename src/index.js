@@ -1,22 +1,24 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-import {DataProvider} from './data/Context';
+import React from "react";
+import ReactDOM from "react-dom";
+import "./index.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+
+import store from "./redux/store";
+import { Provider } from "react-redux";
 //eslint-disable-next-line
-import $ from 'jquery'; 
+import $ from "jquery";
 //eslint-disable-next-line
-import Popper from 'popper.js'; 
-import 'bootstrap/dist/js/bootstrap.bundle.min';
+import Popper from "popper.js";
+import "bootstrap/dist/js/bootstrap.bundle.min";
 
 ReactDOM.render(
   <React.StrictMode>
-    <DataProvider>
-    <App />
-    </DataProvider>
+    <Provider store={store()}>
+      <App />
+    </Provider>
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById("root")
 );
 
 // If you want to start measuring performance in your app, pass a function

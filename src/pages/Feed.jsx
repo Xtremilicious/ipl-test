@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, lazy, Suspense } from "react";
 import styled from "styled-components";
 import { IconContext } from "react-icons";
-import { DataConsumer } from "../data/Context";
 import { BiSearch } from "react-icons/bi";
-import PlayerCard from "../components/PlayerCard";
+import { connect } from "react-redux";
+import Loading from "../components/Loading";
+
+const PlayerCard = lazy(() => import("../components/PlayerCard"));
 
 const FeedWrapper = styled.nav`
   height: 100vh;
@@ -60,6 +62,7 @@ const FeedWrapper = styled.nav`
   }
   .player-image {
     height: 7em;
+    width: 7em;
   }
   .player-info {
   }
@@ -123,17 +126,24 @@ const FeedWrapper = styled.nav`
     justify-content: center;
     align-items: center;
   }
+  .load-more-button {
+    padding: 0.5em 1em;
+    border: 1px solid #819ff7;
+    background: transparent;
+    outline: none;
+  }
 `;
 
-export default function Feed() {
+function Feed(state) {
   function giveAlert() {
     alert("Search logic not implemented.");
   }
-  const [playersToDisplay, setplayersToDisplay] = useState(3);
+  const [playersToDisplay, setplayersToDisplay] = useState(24);
   function showMore() {
-    setplayersToDisplay(playersToDisplay + 18);
+    setplayersToDisplay(playersToDisplay + 24);
   }
-  const totalPlayers = 600;
+  const { players } = state;
+  const totalPlayers = players.length;
   return (
     <FeedWrapper>
       <div className="feed-navbar">
@@ -156,22 +166,29 @@ export default function Feed() {
       </div>
 
       <div className="cardContainer">
-        <DataConsumer>
-          {(value) => {
-            return value.players.slice(0, playersToDisplay).map((player) => {
-              //console.log(playerStat)
-              return <PlayerCard data={player} />;
-            });
-            //console.log(value.players);
-            //return value.players.map((player) => <div>{player.Player_Name}</div>);
-          }}
-        </DataConsumer>
-        {playersToDisplay < totalPlayers ? (
+        {players.slice(0, playersToDisplay).map((player) => {
+          return (
+            <Suspense fallback={Loading}>
+              <PlayerCard data={player} />
+            </Suspense>
+          );
+        })}
+      </div>
+      {playersToDisplay < totalPlayers ? (
+        <div className="d-flex justify-content-center m-4">
           <button onClick={() => showMore()} className="load-more-button">
             Load More
           </button>
-        ) : null}
-      </div>
+        </div>
+      ) : null}
     </FeedWrapper>
   );
 }
+
+const mapStateToProps = (state) => {
+  return {
+    players: state.data.players,
+  };
+};
+
+export default connect(mapStateToProps, {})(Feed);

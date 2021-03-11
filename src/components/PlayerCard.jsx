@@ -1,11 +1,5 @@
 import React from "react";
-import { IconContext } from "react-icons";
-import { FaBirthdayCake } from "react-icons/fa";
 import StockImage from "../assets/cricket.svg";
-import { GiCricketBat } from "react-icons/gi";
-import { BiTennisBall } from "react-icons/bi";
-import { BiFlag } from "react-icons/bi";
-import { RiNumbersFill } from "react-icons/ri";
 
 export default function PlayerCard(data) {
   //console.log(data.data);
@@ -32,11 +26,6 @@ export default function PlayerCard(data) {
           <span className="player-name">{data.data.Player_Name}</span>
           {notA(data.data.DOB) === false ? (
             <div className="dob">
-              <IconContext.Provider
-                value={{ color: "#819FF7", size: "1.3rem" }}
-              >
-                <FaBirthdayCake />
-              </IconContext.Provider>
               <span className="date">{getDate(data.data.DOB)}</span>
             </div>
           ) : (
@@ -49,11 +38,6 @@ export default function PlayerCard(data) {
         <div className="player-detail-container">
           <div className="country player-details">
             <div className="box">
-              <IconContext.Provider
-                value={{ color: "#819FF7", size: "1.5rem" }}
-              >
-                <BiFlag />
-              </IconContext.Provider>
               <span className="meta-title">Country</span>
             </div>
             <span className="detail">
@@ -62,11 +46,6 @@ export default function PlayerCard(data) {
           </div>
           <div className="batting player-details">
             <div className="box">
-              <IconContext.Provider
-                value={{ color: "#819FF7", size: "1.5rem" }}
-              >
-                <GiCricketBat />
-              </IconContext.Provider>
               <span className="meta-title">Batting</span>
             </div>
             <span className="detail">
@@ -78,11 +57,6 @@ export default function PlayerCard(data) {
             style={{ gridColumn: "1 / span 2" }}
           >
             <div className="box">
-              <IconContext.Provider
-                value={{ color: "#819FF7", size: "1.5rem" }}
-              >
-                <BiTennisBall />
-              </IconContext.Provider>
               <span className="meta-title">Bowling</span>
             </div>
             <span className="detail">
@@ -97,11 +71,6 @@ export default function PlayerCard(data) {
                 style={{ gridColumn: "1 / span 2" }}
               >
                 <div className="box">
-                  <IconContext.Provider
-                    value={{ color: "#819FF7", size: "1.5rem" }}
-                  >
-                    <RiNumbersFill />
-                  </IconContext.Provider>
                   <span className="meta-title">Total Runs</span>
                 </div>
                 <span className="detail">

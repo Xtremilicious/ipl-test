@@ -1,11 +1,8 @@
-import React from "react";
+import React, { lazy, Suspense } from "react";
 import styled from "styled-components";
-import { Suspense, lazy } from 'react';
-
-
 import Sidebar from "./Sidebar";
-
-const Feed = lazy(() => import('./Feed'))
+import Loading from "../components/Loading"
+const Feed = lazy(() => import("./Feed"));
 
 const DashboardWrapper = styled.nav`
   display: grid;
@@ -17,8 +14,8 @@ export default function Dashboard() {
     <React.Fragment>
       <DashboardWrapper>
         <Sidebar />
-        <Suspense fallback={<h1>Still Loading…</h1>}>
-        <Feed />
+        <Suspense fallback={Loading}>
+          <Feed />
         </Suspense>
       </DashboardWrapper>
     </React.Fragment>

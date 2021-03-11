@@ -5,7 +5,6 @@ import { BiTennisBall } from "react-icons/bi";
 import { BiFlag } from "react-icons/bi";
 
 export default function Category({ data, index }) {
-  //console.log(data);
   function giveAlert() {
     alert("Filter logic not implemented.");
   }
