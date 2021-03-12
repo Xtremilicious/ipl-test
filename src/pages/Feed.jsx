@@ -97,6 +97,7 @@ const mapStateToProps = (state) => {
 const FeedWrapper = styled.div`
   height: 100vh;
   overflow-y: scroll;
+  overflow-x: hidden;
   .feed-navbar {
     background: white;
     margin: 0 1.5em;
