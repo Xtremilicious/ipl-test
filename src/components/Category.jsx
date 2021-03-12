@@ -4,10 +4,17 @@ import { GiCricketBat } from "react-icons/gi";
 import { BiTennisBall } from "react-icons/bi";
 import { BiFlag } from "react-icons/bi";
 
-export default function Category({ data, index }) {
-  function giveAlert() {
+export default function Category({ data, index, filterEnabled, filter }) {
+  const giveAlert = () => {
     alert("Filter logic not implemented.");
-  }
+  };
+
+  const filterChecked = (category, attribute) => {
+    if (filter !== undefined && filter[category] !== undefined) {
+      return filter[category].includes(attribute);
+    } else return false;
+  };
+
   return (
     <div className="categories">
       <div
@@ -19,11 +26,11 @@ export default function Category({ data, index }) {
         id={"heading" + index}
       >
         <IconContext.Provider
-          value={{ color: "#819FF7", className: "global-class-name" }}
+          value={{ color: "#819FF7", className: "global-className-name" }}
         >
-          {data[0] === "Batting Hand" ? (
+          {data[0] === "Batting_Hand" ? (
             <GiCricketBat />
-          ) : data[0] === "Bowling Skill" ? (
+          ) : data[0] === "Bowling_Skill" ? (
             <BiTennisBall />
           ) : data[0] === "Country" ? (
             <BiFlag />
@@ -41,18 +48,21 @@ export default function Category({ data, index }) {
         aria-labelledby={"heading" + index}
       >
         {data[1].map((attribute, inputindex) => (
-          <div className="attributes">
-            <div class="form-check attribute">
+          <div className="attributes" key={"att" + inputindex}>
+            <div className="form-check attribute">
               <input
                 className="form-check-input"
                 type="checkbox"
                 value=""
                 id={"cat" + index + "flexCheck" + inputindex}
                 onClick={() => giveAlert()}
+                defaultChecked={
+                  filterEnabled && filterChecked(data[0], attribute)
+                }
               />
               <label
                 className="form-check-label"
-                for={"cat" + index + "flexCheck" + inputindex}
+                htmlFor={"cat" + index + "flexCheck" + inputindex}
               >
                 <div className="">{attribute}</div>
               </label>

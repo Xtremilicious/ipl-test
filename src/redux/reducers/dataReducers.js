@@ -4,8 +4,8 @@ import Players from "../../data/data.json";
 const initialState = {
   players: Players,
   categories: {
-    "Batting Hand": ["Left Handed", "Right Handed"],
-    "Bowling Skill": [
+    Batting_Hand: ["Left_Hand", "Right_Hand"],
+    Bowling_Skill: [
       "Right-arm medium",
       "Right-arm offbreak",
       "Right-arm fast-medium",
@@ -39,7 +39,7 @@ const initialState = {
   },
 };
 
-export default function (state = initialState, action) {
+export default function reduce(state = initialState, action) {
   switch (action.type) {
     case GET_PLAYERS:
       return {

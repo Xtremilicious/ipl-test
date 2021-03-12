@@ -3,8 +3,6 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import thunk from "redux-thunk";
 import dataReducer from "./reducers/dataReducers";
 
-const initialState = {};
-
 const reducers = combineReducers({
   data: dataReducer,
 });

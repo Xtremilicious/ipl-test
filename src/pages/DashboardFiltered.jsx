@@ -9,13 +9,18 @@ const DashboardWrapper = styled.div`
   grid-template-columns: 1fr 3fr;
 `;
 
-export default function Dashboard(props) {
+export default function DashboardFiltered(props) {
+  const filter = {
+    Batting_Hand: ["Left_Hand"],
+    Country: ["England", "Pakistan"],
+  };
+
   return (
     <React.Fragment>
       <DashboardWrapper>
-        <Sidebar filterEnabled={false} />
-        <Suspense fallback={<Loading />}>
-          <Feed />
+        <Sidebar filterEnabled={true} filter={filter}/>
+        <Suspense fallback={<Loading/>}>
+          <Feed filter={filter} />
         </Suspense>
       </DashboardWrapper>
     </React.Fragment>

@@ -6,7 +6,7 @@ import Category from "../components/Category";
 
 import { connect } from "react-redux";
 
-const SidebarWrapper = styled.nav`
+const SidebarWrapper = styled.div`
   display: flex;
   height: 100vh;
   overflow-y: scroll;
@@ -47,7 +47,7 @@ const SidebarWrapper = styled.nav`
 `;
 
 function Sidebar(state) {
-  let value = state;
+  let { categories, filterEnabled, filter } = state;
   return (
     <SidebarWrapper>
       <div className="navheader">
@@ -55,8 +55,8 @@ function Sidebar(state) {
         <span className="headtitle">FILTERS</span>
       </div>
       <div className="sidebar-content accordion" id="accordionExample">
-        {Object.entries(value.categories).map((category, index) => (
-          <Category data={category} index={index} />
+        {Object.entries(categories).map((category, index) => (
+          <Category data={category} key={index} index={index} filterEnabled={filterEnabled} filter={filter} />
         ))}
       </div>
     </SidebarWrapper>
@@ -65,7 +65,6 @@ function Sidebar(state) {
 
 const mapStateToProps = (state) => {
   return {
-    players: state.data.players,
     categories: state.data.categories,
   };
 };

@@ -1,21 +1,8 @@
 import React from "react";
 import StockImage from "../assets/cricket.svg";
+import { notA, getDate } from "../utils/functions";
 
 export default function PlayerCard(data) {
-  //console.log(data.data);
-
-  function notA(attribute) {
-    if (attribute === "" || attribute === "NULL" || attribute === undefined) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-  function getDate(date) {
-    const today = new Date(date);
-    const options = { year: "numeric", month: "short", day: "numeric" };
-    return today.toLocaleDateString("en-US", options);
-  }
   return (
     <div className="playerCard">
       <div className="player-header">

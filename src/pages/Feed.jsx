@@ -1,13 +1,100 @@
-import React, { useState, lazy, Suspense } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { IconContext } from "react-icons";
 import { BiSearch } from "react-icons/bi";
+import { FaTimes } from "react-icons/fa";
 import { connect } from "react-redux";
-import Loading from "../components/Loading";
+import PlayerCard from "../components/PlayerCard";
 
-const PlayerCard = lazy(() => import("../components/PlayerCard"));
+function Feed(state) {
+  const giveAlert = () => {
+    alert("Search logic not implemented.");
+  };
 
-const FeedWrapper = styled.nav`
+  const [playersToDisplay, setplayersToDisplay] = useState(24);
+  const showMore = () => {
+    setplayersToDisplay(playersToDisplay + 24);
+  };
+
+  const filterPlayers = (filter) => {
+    let playersFiltered = players.filter((el) => {
+      let match = true;
+      for (const [key, value] of Object.entries(filter)) {
+        match = value.includes(el[key]) & match;
+      }
+      return match;
+    });
+    players = playersFiltered;
+  };
+
+  let { players, filter } = state;
+
+  if (filter !== undefined) {
+    filterPlayers(filter);
+  }
+
+  const totalPlayers = players.length;
+  return (
+    <FeedWrapper>
+      <div className="feed-navbar">
+        <div className="searchbar">
+          <input
+            type="search"
+            id="form1"
+            className="form-control input-bar"
+            placeholder="Search IPL Players..."
+            onClick={() => giveAlert()}
+          />
+          <button type="button" className="search-submit">
+            <IconContext.Provider
+              value={{ color: "#819FF7", fontSize: "2rem" }}
+            >
+              <BiSearch />
+            </IconContext.Provider>
+          </button>
+        </div>
+        {filter !== undefined ? (
+          <div className="tag-container">
+            {Object.entries(filter).map((entry, index) => {
+              return (
+                <div className="tag" key={`tag-${index.toString()}`}>
+                  {`${entry[0]}: `}
+                  <span className="tag-values">{`${entry[1].join(", ")}`}</span>
+                  <IconContext.Provider value={{ color: "#819FF7" }}>
+                    <FaTimes />
+                  </IconContext.Provider>
+                </div>
+              );
+            })}
+          </div>
+        ) : (
+          ""
+        )}
+      </div>
+
+      <div className="cardContainer">
+        {players.slice(0, playersToDisplay).map((player, index) => {
+          return <PlayerCard data={player} key={"player" + index} />;
+        })}
+      </div>
+      {playersToDisplay < totalPlayers ? (
+        <div className="d-flex justify-content-center m-4">
+          <button onClick={() => showMore()} className="load-more-button">
+            Load More
+          </button>
+        </div>
+      ) : null}
+    </FeedWrapper>
+  );
+}
+
+const mapStateToProps = (state) => {
+  return {
+    players: state.data.players,
+  };
+};
+
+const FeedWrapper = styled.div`
   height: 100vh;
   overflow-y: scroll;
   .feed-navbar {
@@ -19,11 +106,14 @@ const FeedWrapper = styled.nav`
     z-index: 1;
     width: 100%;
     top: 0;
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+
     .searchbar {
       display: flex;
-      width: 50%;
       align-items: center;
       font-size: 2em;
+      height: fit-content;
       border: 1px solid #e6e6e6;
     }
     .input-bar {
@@ -138,63 +228,26 @@ const FeedWrapper = styled.nav`
     background: transparent;
     outline: none;
   }
+  .tag-container {
+    margin-left: 0.1em;
+    display: flex;
+    justify-content: center;
+    overflow-wrap: normal;
+    flex-flow: row wrap;
+    line-height: 170%;
+  }
+  .tag {
+    padding: 0.3em 0.5em;
+    width: fit-content;
+    border: 1px solid #e6e6e6;
+    margin: 0.2rem;
+    border-radius: 4em;
+    font-size: 1em;
+  }
+  .tag-values {
+    color: #819ff7;
+    margin-right: 0.5em;
+  }
 `;
-
-function Feed(state) {
-  function giveAlert() {
-    alert("Search logic not implemented.");
-  }
-  const [playersToDisplay, setplayersToDisplay] = useState(24);
-  function showMore() {
-    setplayersToDisplay(playersToDisplay + 24);
-  }
-  const { players } = state;
-  const totalPlayers = players.length;
-  return (
-    <FeedWrapper>
-      <div className="feed-navbar">
-        <div className="searchbar">
-          <input
-            type="search"
-            id="form1"
-            className="form-control input-bar"
-            placeholder="Search IPL Players..."
-            onClick={() => giveAlert()}
-          />
-          <button type="button" className="search-submit">
-            <IconContext.Provider
-              value={{ color: "#819FF7", fontSize: "2rem" }}
-            >
-              <BiSearch />
-            </IconContext.Provider>
-          </button>
-        </div>
-      </div>
-
-      <div className="cardContainer">
-        {players.slice(0, playersToDisplay).map((player) => {
-          return (
-            <Suspense fallback={Loading}>
-              <PlayerCard data={player} />
-            </Suspense>
-          );
-        })}
-      </div>
-      {playersToDisplay < totalPlayers ? (
-        <div className="d-flex justify-content-center m-4">
-          <button onClick={() => showMore()} className="load-more-button">
-            Load More
-          </button>
-        </div>
-      ) : null}
-    </FeedWrapper>
-  );
-}
-
-const mapStateToProps = (state) => {
-  return {
-    players: state.data.players,
-  };
-};
 
 export default connect(mapStateToProps, {})(Feed);
